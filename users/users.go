@@ -39,7 +39,7 @@ func Populate(config models.Config) (err error) {
 	for _, v := range arr[1:] {
 		user := models.User{
 			Name:     v[1],
-			Email:    strings.ToLower(v[0]) + "@gmail.com",
+			Email:    strings.ToLower(strings.Trim(v[0],"_ -")) + "@gmail.com",
 			Password: rand_string.String(16),
 		}
 		err = userDao.CreateUser(&user)
