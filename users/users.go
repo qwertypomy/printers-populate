@@ -37,6 +37,9 @@ func Populate(config models.Config) (err error) {
 		return
 	}
 	for _, v := range arr[1:] {
+		if len([]rune(v[1])) > 45 {
+			continue
+		}
 		user := models.User{
 			Name:     v[1],
 			Email:    strings.ToLower(strings.Trim(v[0],"_ -")) + "@gmail.com",
