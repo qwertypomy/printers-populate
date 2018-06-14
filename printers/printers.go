@@ -2,13 +2,13 @@ package printers
 
 import (
 	"bufio"
-	"database/sql"
 	"encoding/csv"
-	"github.com/qwertypomy/printers/dao/factory"
-	"github.com/qwertypomy/printers/models"
 	"os"
 	"path/filepath"
 	"strconv"
+
+	"github.com/qwertypomy/printers/dao/factory"
+	"github.com/qwertypomy/printers/models"
 )
 
 var brandN, technologyN, functionTypeN, printSizeN, resolutionXN, resolutionYN, nameN, descriptionN,
@@ -245,7 +245,9 @@ func ArrToPrinters(arr [][]string, config models.Config) (printers []models.Prin
 			return
 		}
 
-		var brand, technology, functionType, printSize, resolutionX, resolutionY uint
+		var brand, technology, functionType, printSize string
+		var resolutionX, resolutionY uint
+
 		for _, v := range brands {
 			if v.Name == printer[brandN] {
 				brand = v.ID
@@ -287,13 +289,13 @@ func ArrToPrinters(arr [][]string, config models.Config) (printers []models.Prin
 
 		printers = append(printers, models.Printer{
 			Name:                 printer[nameN],
-			Description:          sql.NullString{printer[descriptionN], true},
-			AdditionalInfo:       sql.NullString{printer[additionalInfoN], true},
+			Description:          printer[descriptionN],
+			AdditionalInfo:       printer[additionalInfoN],
 			Amount:               uint(amount),
 			Weight:               float32(weight),
 			PagePerMinute:        float32(ppm),
 			Price:                uint(price),
-			Size:                 sql.NullString{printer[sizeN], true},
+			Size:                 printer[sizeN],
 			BrandID:              brand,
 			PrintingTechnologyID: technology,
 			FunctionTypeID:       functionType,
